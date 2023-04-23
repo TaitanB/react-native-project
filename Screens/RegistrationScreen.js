@@ -27,7 +27,7 @@ export default function RegistrationScreen({ setGoTo }) {
 
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", ({ window }) => {
-      console.log(dimensions);
+      // console.log(dimensions);
       setDimensions(window.width);
     });
     return () => subscription?.remove();
@@ -62,7 +62,7 @@ export default function RegistrationScreen({ setGoTo }) {
             width: dimensions,
           }}
         >
-          <View style={styles.photoContainer}>
+          <View style={{ ...styles.photoContainer, left: dimensions / 2 - 60 }}>
             <Image style={styles.photo}></Image>
             <Image
               source={require("../assets/image/add.png")}
@@ -81,6 +81,7 @@ export default function RegistrationScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
+              onSubmitEditing={() => keyboardHide()}
               placeholder="Login"
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
@@ -102,6 +103,7 @@ export default function RegistrationScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
+              onSubmitEditing={() => keyboardHide()}
               placeholder="Email"
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
@@ -123,6 +125,7 @@ export default function RegistrationScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
+              onSubmitEditing={() => keyboardHide()}
               placeholder="Password"
               placeholderTextColor={"#BDBDBD"}
               secureTextEntry={true}
@@ -144,12 +147,21 @@ export default function RegistrationScreen({ setGoTo }) {
 
           <TouchableOpacity
             activeOpacity={0.7}
-            style={styles.btn}
+            style={{
+              ...styles.btn,
+              display: isShowKeyboard ? "none" : "flex",
+            }}
             onPress={keyboardHide}
           >
             <Text style={styles.btnTitle}>Sing up</Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.7} onPress={goToLoginScreen}>
+          <TouchableOpacity
+            style={{
+              display: isShowKeyboard ? "none" : "flex",
+            }}
+            activeOpacity={0.7}
+            onPress={goToLoginScreen}
+          >
             <Text style={styles.link}>Already have an account? Sign in</Text>
           </TouchableOpacity>
         </View>
@@ -179,7 +191,7 @@ const styles = StyleSheet.create({
     height: 120,
     position: "absolute",
     top: -60,
-    left: "38%",
+    // left: "38%",
   },
   photo: {
     width: 120,

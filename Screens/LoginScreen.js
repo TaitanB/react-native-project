@@ -69,6 +69,7 @@ export default function LoginScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
+              onSubmitEditing={() => keyboardHide()}
               placeholder="Email"
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
@@ -90,6 +91,7 @@ export default function LoginScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
+              onSubmitEditing={() => keyboardHide()}
               placeholder="Password"
               placeholderTextColor={"#BDBDBD"}
               secureTextEntry={true}
@@ -110,12 +112,18 @@ export default function LoginScreen({ setGoTo }) {
           </View>
           <TouchableOpacity
             activeOpacity={0.7}
-            style={styles.btn}
+            style={{
+              ...styles.btn,
+              display: isShowKeyboard ? "none" : "flex",
+            }}
             onPress={keyboardHide}
           >
             <Text style={styles.btnTitle}>Sing in</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={{
+              display: isShowKeyboard ? "none" : "flex",
+            }}
             activeOpacity={0.7}
             onPress={goToRegistrationScreen}
           >
