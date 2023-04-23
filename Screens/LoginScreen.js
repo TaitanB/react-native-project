@@ -69,7 +69,7 @@ export default function LoginScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
-              onSubmitEditing={() => keyboardHide()}
+              onSubmitEditing={keyboardHide}
               placeholder="Email"
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
@@ -91,7 +91,7 @@ export default function LoginScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
-              onSubmitEditing={() => keyboardHide()}
+              onSubmitEditing={keyboardHide}
               placeholder="Password"
               placeholderTextColor={"#BDBDBD"}
               secureTextEntry={true}

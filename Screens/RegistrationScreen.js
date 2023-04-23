@@ -81,7 +81,7 @@ export default function RegistrationScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
-              onSubmitEditing={() => keyboardHide()}
+              onSubmitEditing={keyboardHide}
               placeholder="Login"
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
@@ -103,7 +103,7 @@ export default function RegistrationScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
-              onSubmitEditing={() => keyboardHide()}
+              onSubmitEditing={keyboardHide}
               placeholder="Email"
               placeholderTextColor={"#BDBDBD"}
               onFocus={() => {
@@ -125,7 +125,7 @@ export default function RegistrationScreen({ setGoTo }) {
           >
             <TextInput
               style={styles.input}
-              onSubmitEditing={() => keyboardHide()}
+              onSubmitEditing={keyboardHide}
               placeholder="Password"
               placeholderTextColor={"#BDBDBD"}
               secureTextEntry={true}
@@ -144,7 +144,6 @@ export default function RegistrationScreen({ setGoTo }) {
               </Text>
             </TouchableOpacity>
           </View>
-
           <TouchableOpacity
             activeOpacity={0.7}
             style={{
