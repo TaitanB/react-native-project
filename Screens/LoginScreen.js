@@ -10,10 +10,12 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 
-export default function LoginScreen({ setGoTo }) {
-  //   console.log(Platform.OS);
+import { useNavigation } from "@react-navigation/native";
+
+export default function LoginScreen() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,9 +24,11 @@ export default function LoginScreen({ setGoTo }) {
 
   const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     const subscription = Dimensions.addEventListener("change", ({ window }) => {
-      console.log(dimensions);
+      // console.log(dimensions);
       setDimensions(window.width);
     });
     return () => subscription?.remove();
@@ -34,112 +38,123 @@ export default function LoginScreen({ setGoTo }) {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
-    console.log(`email: ${email}`);
-    setEmail("");
-    console.log(`password: ${password}`);
-    setPassword("");
-  };
-
-  const goToRegistrationScreen = () => {
-    setGoTo(true);
+    // console.log(`email: ${email}`);
+    // setEmail("");
+    // console.log(`password: ${password}`);
+    // setPassword("");
   };
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <View
-          style={{
-            ...styles.form,
-            paddingBottom: isShowKeyboard ? 16 : 111,
-            width: dimensions,
-          }}
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <ImageBackground
+          style={styles.imageBg}
+          source={require("../assets/image/photo-bg.png")}
         >
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>Sing in</Text>
-          </View>
-          <View
-            style={{
-              ...styles.inputContainer,
-              borderColor: onFocusEmail ? "#FF6C00" : "#E8E8E8",
-              backgroundColor: onFocusEmail ? "#FFFFFF" : "#F6F6F6",
-            }}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <TextInput
-              style={styles.input}
-              onSubmitEditing={keyboardHide}
-              placeholder="Email"
-              placeholderTextColor={"#BDBDBD"}
-              onFocus={() => {
-                setIsShowKeyboard(true), setOnFocusEmail(true);
+            <View
+              style={{
+                ...styles.form,
+                paddingBottom: isShowKeyboard ? 32 : 111,
+                width: dimensions,
               }}
-              onBlur={() => {
-                setOnFocusEmail(false);
-              }}
-              value={email}
-              onChangeText={(value) => setEmail(value.trim())}
-            />
-          </View>
-          <View
-            style={{
-              ...styles.inputContainer,
-              borderColor: onFocusPassword ? "#FF6C00" : "#E8E8E8",
-              backgroundColor: onFocusPassword ? "#FFFFFF" : "#F6F6F6",
-            }}
-          >
-            <TextInput
-              style={styles.input}
-              onSubmitEditing={keyboardHide}
-              placeholder="Password"
-              placeholderTextColor={"#BDBDBD"}
-              secureTextEntry={true}
-              onFocus={() => {
-                setIsShowKeyboard(true), setOnFocusPassword(true);
-              }}
-              onBlur={() => {
-                setOnFocusPassword(false);
-              }}
-              value={password}
-              onChangeText={(value) => setEmail(value.trim())}
-            />
-            <TouchableOpacity>
-              <Text activeOpacity={1} style={styles.show}>
-                Show
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={{
-              ...styles.btn,
-              display: isShowKeyboard ? "none" : "flex",
-            }}
-            onPress={keyboardHide}
-          >
-            <Text style={styles.btnTitle}>Sing in</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              display: isShowKeyboard ? "none" : "flex",
-            }}
-            activeOpacity={0.7}
-            onPress={goToRegistrationScreen}
-          >
-            <Text style={styles.link}>Don't have an account? Sign up</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            >
+              <View style={styles.header}>
+                <Text style={styles.headerTitle}>Sing in</Text>
+              </View>
+              <View
+                style={{
+                  ...styles.inputContainer,
+                  borderColor: onFocusEmail ? "#FF6C00" : "#E8E8E8",
+                  backgroundColor: onFocusEmail ? "#FFFFFF" : "#F6F6F6",
+                }}
+              >
+                <TextInput
+                  style={styles.input}
+                  onSubmitEditing={keyboardHide}
+                  placeholder="Email"
+                  placeholderTextColor={"#BDBDBD"}
+                  onFocus={() => {
+                    setIsShowKeyboard(true), setOnFocusEmail(true);
+                  }}
+                  onBlur={() => {
+                    setOnFocusEmail(false);
+                  }}
+                  value={email}
+                  onChangeText={(value) => setEmail(value.trim())}
+                />
+              </View>
+              <View
+                style={{
+                  ...styles.inputContainer,
+                  borderColor: onFocusPassword ? "#FF6C00" : "#E8E8E8",
+                  backgroundColor: onFocusPassword ? "#FFFFFF" : "#F6F6F6",
+                }}
+              >
+                <TextInput
+                  style={styles.input}
+                  onSubmitEditing={keyboardHide}
+                  placeholder="Password"
+                  placeholderTextColor={"#BDBDBD"}
+                  secureTextEntry={true}
+                  onFocus={() => {
+                    setIsShowKeyboard(true), setOnFocusPassword(true);
+                  }}
+                  onBlur={() => {
+                    setOnFocusPassword(false);
+                  }}
+                  value={password}
+                  onChangeText={(value) => setEmail(value.trim())}
+                />
+                <TouchableOpacity>
+                  <Text activeOpacity={1} style={styles.show}>
+                    Show
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={{
+                  ...styles.btn,
+                  display: isShowKeyboard ? "none" : "flex",
+                }}
+                onPress={() => {
+                  navigation.navigate("Home");
+                  keyboardHide;
+                }}
+              >
+                <Text style={styles.btnTitle}>Sing in</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  display: isShowKeyboard ? "none" : "flex",
+                }}
+                activeOpacity={0.7}
+                onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.link}>Don't have an account? Sign up</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // alignItems: "center",
+    backgroundColor: "#ffffff",
+    position: "relative",
+  },
+  imageBg: {
+    flex: 1,
     justifyContent: "flex-end",
-    alignItems: "center",
+    // alignItems: "center",
   },
   form: {
     backgroundColor: "background: rgba(255, 255, 255, 1)",
@@ -148,12 +163,11 @@ const styles = StyleSheet.create({
     paddingTop: 32,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingBottom: 111,
     position: "relative",
   },
   header: {
     alignItems: "center",
-    marginBottom: 33,
+    marginBottom: 32,
   },
   headerTitle: {
     fontFamily: "Roboto-500",
@@ -201,19 +215,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6C00",
     padding: 16,
     marginTop: 27,
-    // ...Platform.select({
-    //   ios: {
-    //     backgroundColor: "transparent",
-    //     borderColor: "#f0f8ff",
-    //   },
-    //   android: {
-    //     backgroundColor: "#4169e1",
-    //     borderColor: "transparent",
-    //   },
-    // }),
   },
   btnTitle: {
-    // color: Platform.OS === "ios" ? "#4169e1" : "#f0f8ff",
     color: "#FFFFFF",
     fontSize: 18,
     fontFamily: "Roboto-400",
