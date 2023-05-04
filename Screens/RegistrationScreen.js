@@ -58,6 +58,10 @@ export default function RegistrationScreen() {
         >
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{
+              height: "100%",
+              justifyContent: "flex-end",
+            }}
           >
             <View
               style={{
@@ -195,6 +199,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     backgroundColor: "#ffffff",
     position: "relative",
+    justifyContent: "flex-end",
   },
   imageBg: {
     flex: 1,
