@@ -1,35 +1,19 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-} from "react-native";
+import React from "react";
+import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function ProfileScreen() {
-  const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
+import ImageBg from "../Components/ImageBg";
+import { useDimensionsScreen } from "../hooks/useDimensionsScreen";
 
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener("change", ({ window }) => {
-      console.log(dimensions);
-      setDimensions(window.width);
-    });
-    return () => subscription?.remove();
-  });
+export default function ProfileScreen() {
+  const screenWidth = useDimensionsScreen().width;
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.bgImage}
-        source={require("../assets/image/photo-bg.png")}
-      >
-        <View style={{ ...styles.profile, width: dimensions }}>
+      <ImageBg>
+        <View style={{ ...styles.profile, width: screenWidth }}>
           <View
-            style={{ ...styles.avatarContainer, left: dimensions / 2 - 60 }}
+            style={{ ...styles.avatarContainer, left: screenWidth / 2 - 60 }}
           >
             <Image style={styles.avatar}></Image>
             <Image
@@ -46,16 +30,13 @@ export default function ProfileScreen() {
           </TouchableOpacity>
           <Text style={styles.profileTitle}>{"Name"}</Text>
         </View>
-      </ImageBackground>
+      </ImageBg>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  bgImage: {
     flex: 1,
   },
   profile: {

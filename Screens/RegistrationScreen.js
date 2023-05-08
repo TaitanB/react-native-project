@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,10 +9,11 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Dimensions,
   Image,
-  ImageBackground,
 } from "react-native";
+
+import ImageBg from "../Components/ImageBg";
+import { useDimensionsScreen } from "../hooks/useDimensionsScreen";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -25,17 +26,9 @@ export default function RegistrationScreen() {
   const [onFocusEmail, setOnFocusEmail] = useState(false);
   const [onFocusPassword, setOnFocusPassword] = useState(false);
 
-  const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
+  const screenWidth = useDimensionsScreen().width;
 
   const navigation = useNavigation();
-
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener("change", ({ window }) => {
-      // console.log(dimensions);
-      setDimensions(window.width);
-    });
-    return () => subscription?.remove();
-  });
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -51,11 +44,8 @@ export default function RegistrationScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={keyboardHide}>
-        <ImageBackground
-          style={styles.imageBg}
-          source={require("../assets/image/photo-bg.png")}
-        >
+      <ImageBg>
+        <TouchableWithoutFeedback onPress={keyboardHide}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{
@@ -67,11 +57,14 @@ export default function RegistrationScreen() {
               style={{
                 ...styles.form,
                 paddingBottom: isShowKeyboard ? 16 : 45,
-                width: dimensions,
+                width: screenWidth,
               }}
             >
               <View
-                style={{ ...styles.photoContainer, left: dimensions / 2 - 60 }}
+                style={{
+                  ...styles.photoContainer,
+                  left: screenWidth / 2 - 60,
+                }}
               >
                 <Image style={styles.photo}></Image>
                 <Image
@@ -160,34 +153,32 @@ export default function RegistrationScreen() {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={{
-                  ...styles.btn,
-                  display: isShowKeyboard ? "none" : "flex",
-                }}
-                onPress={() => {
-                  navigation.navigate("Home");
-                  keyboardHide;
-                }}
-              >
-                <Text style={styles.btnTitle}>Sing up</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  display: isShowKeyboard ? "none" : "flex",
-                }}
-                activeOpacity={0.7}
-                onPress={() => navigation.navigate("Login")}
-              >
-                <Text style={styles.link}>
-                  Already have an account? Sign in
-                </Text>
-              </TouchableOpacity>
+              {!isShowKeyboard && (
+                <>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.btn}
+                    onPress={() => {
+                      navigation.navigate("Home");
+                      keyboardHide;
+                    }}
+                  >
+                    <Text style={styles.btnTitle}>Sing up</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => navigation.navigate("Login")}
+                  >
+                    <Text style={styles.link}>
+                      Already have an account? Sign in
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           </KeyboardAvoidingView>
-        </ImageBackground>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </ImageBg>
     </View>
   );
 }
@@ -195,16 +186,8 @@ export default function RegistrationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
-    // alignItems: "center",
-    backgroundColor: "#ffffff",
-    position: "relative",
-    justifyContent: "flex-end",
-  },
-  imageBg: {
-    flex: 1,
-    justifyContent: "flex-end",
-    // alignItems: "center",
+    // backgroundColor: "#ffffff",
+    // justifyContent: "flex-end",
   },
   form: {
     backgroundColor: "background: rgba(255, 255, 255, 1)",
