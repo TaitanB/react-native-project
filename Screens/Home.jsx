@@ -41,9 +41,9 @@ const Home = () => {
           tabBarInactiveBackgroundColor: "#ffffff",
           tabBarStyle: [
             {
-              height: 71,
+              height: 58,
               paddingTop: 9,
-              paddingBottom: 22,
+              paddingBottom: 9,
               paddingHorizontal: 60,
               borderTopWidth: 1,
               borderTopColor: "#BDBDBD",
@@ -127,7 +127,7 @@ const Home = () => {
           name="CreatePosts"
           component={CreatePostsScreen}
           options={{
-            headerTitle: "Create a post",
+            headerTitle: "Create post",
             headerLeft: () => (
               <TouchableOpacity
                 style={{ width: 24, marginLeft: 16 }}

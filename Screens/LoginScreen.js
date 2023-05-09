@@ -51,7 +51,7 @@ export default function LoginScreen() {
             <View
               style={{
                 ...styles.form,
-                paddingBottom: isShowKeyboard ? 32 : 111,
+                paddingBottom: isShowKeyboard ? 16 : 111,
                 width: screenWidth,
               }}
             >
