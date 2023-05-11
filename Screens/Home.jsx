@@ -2,8 +2,8 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "./PostsScreen";
-import MapScreen from "./MapScreen";
-import CommentsScreen from "./CommentsScreen";
+// import MapScreen from "./MapScreen";
+// import CommentsScreen from "./CommentsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -78,8 +78,10 @@ const Home = () => {
         <Tabs.Screen
           name="Posts"
           component={PostsScreen}
-          options={{
+          options={({ route }) => ({
             headerTitle: "Posts",
+            headerShown:
+              route.name === "Map" || route.name === "Comment" ? false : true,
             headerRight: () => (
               <TouchableOpacity
                 style={{
@@ -91,7 +93,7 @@ const Home = () => {
                 <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
               </TouchableOpacity>
             ),
-          }}
+          })}
         />
         {/* <Tabs.Screen
           name="Map"

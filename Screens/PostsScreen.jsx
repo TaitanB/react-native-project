@@ -1,55 +1,46 @@
 import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import StartScreen from "./StartScreen";
+import CommentsScreen from "./CommentsScreen";
+import MapScreen from "./MapScreen";
+
+const NestedScreen = createStackNavigator();
 
 const PostsScreen = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.user}>
-        <Image style={styles.avatar} />
-        <View style={styles.userInfo}>
-          <Text style={styles.userName}>{"userName"}</Text>
-          <Text style={styles.userEmail}>{"userEmail"}</Text>
-        </View>
-      </View>
-    </View>
+    <NestedScreen.Navigator
+      initialRouteName="StartScreen"
+      screenOptions={({ route }) => ({
+        headerTitleStyle: {
+          fontFamily: "Roboto-500",
+          fontStyle: "normal",
+          fontWeight: "medium",
+          fontSize: 17,
+          lineHeight: 22,
+          textAlign: "center",
+          letterSpacing: -0.408,
+          color: "#212121",
+        },
+        headerTitleAlign: "center",
+        headerStatusBarHeight: 44,
+        headerStyle: {
+          height: 88,
+          borderBottomWidth: 1,
+          borderBottomColor: "#BDBDBD",
+        },
+      })}
+    >
+      <NestedScreen.Screen
+        name="StartScreen"
+        component={StartScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <NestedScreen.Screen name="Comment" component={CommentsScreen} />
+      <NestedScreen.Screen name="Map" component={MapScreen} />
+    </NestedScreen.Navigator>
   );
 };
 
 export default PostsScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    paddingHorizontal: 16,
-    backgroundColor: "#ffffff",
-  },
-  user: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 32,
-    marginBottom: 32,
-    marginRight: "auto",
-  },
-  avatar: {
-    borderRadius: 16,
-    width: 60,
-    height: 60,
-    backgroundColor: "#F6F6F6",
-  },
-  userInfo: {
-    marginLeft: 8,
-  },
-  userName: {
-    fontFamily: "Roboto-700",
-    fontSize: 13,
-    lineHeight: 15,
-    color: "#212121",
-  },
-  userEmail: {
-    fontFamily: "Roboto-400",
-    fontSize: 11,
-    lineHeight: 13,
-    color: "#21212180",
-  },
-});
