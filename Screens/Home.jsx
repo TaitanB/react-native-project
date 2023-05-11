@@ -94,35 +94,35 @@ const Home = () => {
           }}
         />
         {/* <Tabs.Screen
-        name="Map"
-        component={MapScreen}
-        options={{
-          headerTitle: "Map",
-          headerLeft: () => (
-            <TouchableOpacity
-              style={{ width: 24, marginLeft: 16 }}
-              onPress={() => navigation.navigate("Posts")}
-            >
-              <Ionicons name="arrow-back" size={24} color="#21212180" />
-            </TouchableOpacity>
-          ),
-        }}
-      /> */}
+          name="Map"
+          component={MapScreen}
+          options={{
+            headerTitle: "Map",
+            headerLeft: () => (
+              <TouchableOpacity
+                style={{ width: 24, marginLeft: 16 }}
+                onPress={() => navigation.navigate("Posts")}
+              >
+                <Ionicons name="arrow-back" size={24} color="#21212180" />
+              </TouchableOpacity>
+            ),
+          }}
+        /> */}
         {/* <Tabs.Screen
-        name="Comments"
-        component={CommentsScreen}
-        options={{
-          headerTitle: "Comments",
-          headerLeft: () => (
-            <TouchableOpacity
-              style={{ width: 24, marginLeft: 16 }}
-              onPress={() => navigation.navigate("Posts")}
-            >
-              <Ionicons name="arrow-back" size={24} color="#21212180" />
-            </TouchableOpacity>
-          ),
-        }}
-      /> */}
+          name="Comments"
+          component={CommentsScreen}
+          options={{
+            headerTitle: "Comments",
+            headerLeft: () => (
+              <TouchableOpacity
+                style={{ width: 24, marginLeft: 16 }}
+                onPress={() => navigation.navigate("Posts")}
+              >
+                <Ionicons name="arrow-back" size={24} color="#21212180" />
+              </TouchableOpacity>
+            ),
+          }}
+        /> */}
         <Tabs.Screen
           name="CreatePosts"
           component={CreatePostsScreen}

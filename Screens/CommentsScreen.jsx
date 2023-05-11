@@ -11,37 +11,37 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 const CommentsScreen = () => {
-  const [showKeyboard, setShowKeyboard] = useState(false);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [onFocusComment, setOnFocusComment] = useState(false);
 
-  const onFocusCommentInput = () => {
-    setShowKeyboard(true);
-  };
-  const onBlurCommentInput = () => {
-    setShowKeyboard(false);
-  };
-  const hideKeyboard = () => {
-    setShowKeyboard(false);
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
     Keyboard.dismiss();
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={hideKeyboard}>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
         <View
           style={{
             ...styles.form,
-            marginBottom: showKeyboard ? 270 : 10,
+            marginBottom: isShowKeyboard ? 270 : 10,
           }}
         >
           <TextInput
             placeholder="Comment..."
             placeholderTextColor={"#BDBDBD"}
-            onFocus={onFocusCommentInput}
-            onBlur={onBlurCommentInput}
-            style={styles.input}
+            onFocus={() => {
+              setIsShowKeyboard(true), setOnFocusComment(true);
+            }}
+            onBlur={() => setOnFocusComment(false)}
+            style={{
+              ...styles.input,
+              borderColor: onFocusComment ? "#FF6C00" : "#E8E8E8",
+            }}
           />
           <TouchableOpacity
             style={styles.send}
@@ -50,8 +50,8 @@ const CommentsScreen = () => {
             <Ionicons name="arrow-up-circle" size={34} color="#FF6C00" />
           </TouchableOpacity>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     padding: 15,
     borderWidth: 1,
     borderRadius: 50,
-    borderColor: "#E8E8E8",
     backgroundColor: "#F6F6F6",
     fontSize: 16,
     lineHeight: 20,

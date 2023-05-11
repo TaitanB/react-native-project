@@ -10,10 +10,10 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Image,
+  Dimensions,
 } from "react-native";
 
 import ImageBg from "../Components/ImageBg";
-import { useDimensionsScreen } from "../hooks/useDimensionsScreen";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -25,8 +25,6 @@ export default function RegistrationScreen() {
   const [onFocusLogin, setOnFocusLogin] = useState(false);
   const [onFocusEmail, setOnFocusEmail] = useState(false);
   const [onFocusPassword, setOnFocusPassword] = useState(false);
-
-  const screenWidth = useDimensionsScreen().width;
 
   const navigation = useNavigation();
 
@@ -57,13 +55,13 @@ export default function RegistrationScreen() {
               style={{
                 ...styles.form,
                 paddingBottom: isShowKeyboard ? 16 : 45,
-                width: screenWidth,
+                width: Dimensions.get("window").width,
               }}
             >
               <View
                 style={{
                   ...styles.photoContainer,
-                  left: screenWidth / 2 - 60,
+                  left: Dimensions.get("window").width / 2 - 60,
                 }}
               >
                 <Image style={styles.photo}></Image>
@@ -158,10 +156,7 @@ export default function RegistrationScreen() {
                   <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.btn}
-                    onPress={() => {
-                      navigation.navigate("Home");
-                      keyboardHide;
-                    }}
+                    onPress={() => navigation.navigate("Home")}
                   >
                     <Text style={styles.btnTitle}>Sing up</Text>
                   </TouchableOpacity>

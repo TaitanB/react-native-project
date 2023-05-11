@@ -1,19 +1,28 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import ImageBg from "../Components/ImageBg";
-import { useDimensionsScreen } from "../hooks/useDimensionsScreen";
 
 export default function ProfileScreen() {
-  const screenWidth = useDimensionsScreen().width;
-
   return (
     <View style={styles.container}>
       <ImageBg>
-        <View style={{ ...styles.profile, width: screenWidth }}>
+        <View
+          style={{ ...styles.profile, width: Dimensions.get("window").width }}
+        >
           <View
-            style={{ ...styles.avatarContainer, left: screenWidth / 2 - 60 }}
+            style={{
+              ...styles.avatarContainer,
+              left: Dimensions.get("window").width / 2 - 60,
+            }}
           >
             <Image style={styles.avatar}></Image>
             <Image

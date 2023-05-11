@@ -9,10 +9,10 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Dimensions,
 } from "react-native";
 
 import ImageBg from "../Components/ImageBg";
-import { useDimensionsScreen } from "../hooks/useDimensionsScreen";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,8 +22,6 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [onFocusEmail, setOnFocusEmail] = useState(false);
   const [onFocusPassword, setOnFocusPassword] = useState(false);
-
-  const screenWidth = useDimensionsScreen().width;
 
   const navigation = useNavigation();
 
@@ -52,12 +50,13 @@ export default function LoginScreen() {
               style={{
                 ...styles.form,
                 paddingBottom: isShowKeyboard ? 16 : 111,
-                width: screenWidth,
+                width: Dimensions.get("window").width,
               }}
             >
               <View style={styles.header}>
                 <Text style={styles.headerTitle}>Sing in</Text>
               </View>
+
               <View
                 style={{
                   ...styles.inputContainer,
@@ -108,15 +107,13 @@ export default function LoginScreen() {
                   </Text>
                 </TouchableOpacity>
               </View>
+
               {!isShowKeyboard && (
                 <>
                   <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.btn}
-                    onPress={() => {
-                      navigation.navigate("Home");
-                      keyboardHide;
-                    }}
+                    onPress={() => navigation.navigate("Home")}
                   >
                     <Text style={styles.btnTitle}>Sing in</Text>
                   </TouchableOpacity>
@@ -141,8 +138,6 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#ffffff",
-    // justifyContent: "flex-end",
   },
   form: {
     backgroundColor: "background: rgba(255, 255, 255, 1)",

@@ -1,13 +1,9 @@
-import { ImageBackground, StyleSheet } from "react-native";
-import { useDimensionsScreen } from "../hooks/useDimensionsScreen";
+import { ImageBackground, StyleSheet, Dimensions } from "react-native";
 
 export default function ImageBg({ children }) {
-  const width = useDimensionsScreen().width;
-  const height = useDimensionsScreen().height;
-
   return (
     <ImageBackground
-      style={{ ...styles.imageBg, width: width, height: height }}
+      style={styles.imageBg}
       source={require("../assets/image/photo-bg.png")}
     >
       {children}
@@ -17,8 +13,9 @@ export default function ImageBg({ children }) {
 
 const styles = StyleSheet.create({
   imageBg: {
-    // resizeMode: "cover",
     flex: 1,
     justifyContent: "flex-end",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
 });
