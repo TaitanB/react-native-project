@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import PostsScreen from "./PostsScreen";
+import PostsScreen from "../Screens/homeScreens/PostsScreen";
 // import MapScreen from "./MapScreen";
 // import CommentsScreen from "./CommentsScreen";
-import CreatePostsScreen from "./CreatePostsScreen";
-import ProfileScreen from "./ProfileScreen";
+import CreatePostsScreen from "../Screens/homeScreens/CreatePostsScreen";
+import ProfileScreen from "../Screens/homeScreens/ProfileScreen";
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 

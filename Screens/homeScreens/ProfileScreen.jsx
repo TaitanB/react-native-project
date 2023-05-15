@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import ImageBg from "../Components/ImageBg";
+import ImageBg from "../../Components/ImageBg";
 
 export default function ProfileScreen() {
   return (
@@ -26,7 +26,7 @@ export default function ProfileScreen() {
           >
             <Image style={styles.avatar}></Image>
             <Image
-              source={require("../assets/image/del.png")}
+              source={require("../../assets/image/del.png")}
               style={styles.del}
             ></Image>
           </View>

@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { Feather } from "@expo/vector-icons";
 
-import PhotoCamera from "../Components/PhotoCamera";
+import PhotoCamera from "../../Components/PhotoCamera";
 
 const CreatePostsScreen = () => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);

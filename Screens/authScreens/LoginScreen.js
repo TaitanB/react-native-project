@@ -12,27 +12,33 @@ import {
   Dimensions,
 } from "react-native";
 
-import ImageBg from "../Components/ImageBg";
+import ImageBg from "../../Components/ImageBg";
 
-import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { authSignIn } from "../../Redux/operations";
 
-export default function LoginScreen() {
+const initialState = {
+  email: "",
+  password: "",
+};
+
+export default function LoginScreen({ navigation }) {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [onFocusEmail, setOnFocusEmail] = useState(false);
-  const [onFocusPassword, setOnFocusPassword] = useState(false);
+  const [state, setState] = useState(initialState);
+  const [isFocusEmail, setIsFocusEmail] = useState(false);
+  const [isFocusPassword, setIsFocusPassword] = useState(false);
 
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+  };
 
-    // console.log(`email: ${email}`);
-    // setEmail("");
-    // console.log(`password: ${password}`);
-    // setPassword("");
+  const handleSubmit = () => {
+    Keyboard.dismiss();
+    dispatch(authSignIn(state));
+    setState(initialState);
   };
 
   return (
@@ -60,8 +66,8 @@ export default function LoginScreen() {
               <View
                 style={{
                   ...styles.inputContainer,
-                  borderColor: onFocusEmail ? "#FF6C00" : "#E8E8E8",
-                  backgroundColor: onFocusEmail ? "#FFFFFF" : "#F6F6F6",
+                  borderColor: isFocusEmail ? "#FF6C00" : "#E8E8E8",
+                  backgroundColor: isFocusEmail ? "#FFFFFF" : "#F6F6F6",
                 }}
               >
                 <TextInput
@@ -70,20 +76,25 @@ export default function LoginScreen() {
                   placeholder="Email"
                   placeholderTextColor={"#BDBDBD"}
                   onFocus={() => {
-                    setIsShowKeyboard(true), setOnFocusEmail(true);
+                    setIsShowKeyboard(true), setIsFocusEmail(true);
                   }}
                   onBlur={() => {
-                    setOnFocusEmail(false);
+                    setIsFocusEmail(false);
                   }}
-                  value={email}
-                  onChangeText={(value) => setEmail(value.trim())}
+                  value={state.email}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({
+                      ...prevState,
+                      email: value.trim(),
+                    }))
+                  }
                 />
               </View>
               <View
                 style={{
                   ...styles.inputContainer,
-                  borderColor: onFocusPassword ? "#FF6C00" : "#E8E8E8",
-                  backgroundColor: onFocusPassword ? "#FFFFFF" : "#F6F6F6",
+                  borderColor: isFocusPassword ? "#FF6C00" : "#E8E8E8",
+                  backgroundColor: isFocusPassword ? "#FFFFFF" : "#F6F6F6",
                 }}
               >
                 <TextInput
@@ -93,13 +104,18 @@ export default function LoginScreen() {
                   placeholderTextColor={"#BDBDBD"}
                   secureTextEntry={true}
                   onFocus={() => {
-                    setIsShowKeyboard(true), setOnFocusPassword(true);
+                    setIsShowKeyboard(true), setIsFocusPassword(true);
                   }}
                   onBlur={() => {
-                    setOnFocusPassword(false);
+                    setIsFocusPassword(false);
                   }}
-                  value={password}
-                  onChangeText={(value) => setEmail(value.trim())}
+                  value={state.password}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({
+                      ...prevState,
+                      password: value.trim(),
+                    }))
+                  }
                 />
                 <TouchableOpacity>
                   <Text activeOpacity={1} style={styles.show}>
@@ -113,7 +129,8 @@ export default function LoginScreen() {
                   <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.btn}
-                    onPress={() => navigation.navigate("Home")}
+                    // onPress={() => navigation.navigate("Home")}
+                    onPress={handleSubmit}
                   >
                     <Text style={styles.btnTitle}>Sing in</Text>
                   </TouchableOpacity>
