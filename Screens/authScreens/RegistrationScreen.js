@@ -12,11 +12,11 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { useDispatch } from "react-redux";
 
 import ImageBg from "../../Components/ImageBg";
-
-import { useDispatch } from "react-redux";
 import { authSignUp } from "../../Redux/operations";
+import { useTogglePasswordVisibility } from "../../hooks/useTogglePasswordVisibility";
 
 const initialState = {
   login: "",
@@ -32,6 +32,9 @@ export default function RegistrationScreen({ navigation }) {
     email: false,
     password: false,
   });
+
+  const { passwordVisibility, toggleText, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
 
   const dispatch = useDispatch();
 
@@ -153,7 +156,7 @@ export default function RegistrationScreen({ navigation }) {
                   onSubmitEditing={keyboardHide}
                   placeholder="Password"
                   placeholderTextColor={"#BDBDBD"}
-                  secureTextEntry={true}
+                  secureTextEntry={passwordVisibility}
                   onFocus={() => {
                     setIsShowKeyboard(true),
                       setIsFocus({ ...isFocus, password: true });
@@ -170,8 +173,12 @@ export default function RegistrationScreen({ navigation }) {
                   }
                 />
                 <TouchableOpacity>
-                  <Text activeOpacity={1} style={styles.show}>
-                    Show
+                  <Text
+                    activeOpacity={1}
+                    style={styles.toggleText}
+                    onPress={handlePasswordVisibility}
+                  >
+                    {toggleText}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -264,7 +271,7 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "#212121",
   },
-  show: {
+  toggleText: {
     marginTop: 16,
     fontFamily: "Roboto-400",
     fontStyle: "normal",

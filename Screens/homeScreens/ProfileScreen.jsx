@@ -8,10 +8,20 @@ import {
   Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
 
 import ImageBg from "../../Components/ImageBg";
+import { authSignOut } from "../../Redux/operations";
+
 
 export default function ProfileScreen() {
+  const { userName } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const signOut = () => {
+    dispatch(authSignOut());
+  };
+
   return (
     <View style={styles.container}>
       <ImageBg>
@@ -33,11 +43,11 @@ export default function ProfileScreen() {
           <TouchableOpacity
             style={styles.logoutButton}
             activeOpacity={0.8}
-            // onPress={}
+            onPress={signOut}
           >
             <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
           </TouchableOpacity>
-          <Text style={styles.profileTitle}>{"Name"}</Text>
+          <Text style={styles.profileTitle}>{userName}</Text>
         </View>
       </ImageBg>
     </View>

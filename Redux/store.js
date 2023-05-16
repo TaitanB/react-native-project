@@ -10,18 +10,11 @@ import {
   REGISTER,
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { authSlice } from "./rootReducer";
-
-// const persistConfig = {
-//   key: "root",
-//   storage: AsyncStorage,
-// };
+import { authReducer } from "./authSlice";
 
 const rootReducer = combineReducers({
-  [authSlice.name]: authSlice.reducer,
+  auth: authReducer,
 });
-
-// const reducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: rootReducer,

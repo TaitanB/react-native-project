@@ -1,15 +1,18 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const StartScreen = ({ navigation, route }) => {
+  const { userName, userEmail } = useSelector((state) => state.auth);
+
   return (
     <View style={styles.container}>
       <View style={styles.user}>
         <Image style={styles.avatar} />
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{"userName"}</Text>
-          <Text style={styles.userEmail}>{"userEmail"}</Text>
+          <Text style={styles.userName}>{userName}</Text>
+          <Text style={styles.userEmail}>{userEmail}</Text>
         </View>
       </View>
       <FlatList

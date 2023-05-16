@@ -11,11 +11,11 @@ import {
   TouchableWithoutFeedback,
   Dimensions,
 } from "react-native";
+import { useDispatch } from "react-redux";
 
 import ImageBg from "../../Components/ImageBg";
-
-import { useDispatch } from "react-redux";
 import { authSignIn } from "../../Redux/operations";
+import { useTogglePasswordVisibility } from "../../hooks/useTogglePasswordVisibility";
 
 const initialState = {
   email: "",
@@ -27,6 +27,9 @@ export default function LoginScreen({ navigation }) {
   const [state, setState] = useState(initialState);
   const [isFocusEmail, setIsFocusEmail] = useState(false);
   const [isFocusPassword, setIsFocusPassword] = useState(false);
+
+  const { passwordVisibility, toggleText, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
 
   const dispatch = useDispatch();
 
@@ -102,7 +105,7 @@ export default function LoginScreen({ navigation }) {
                   onSubmitEditing={keyboardHide}
                   placeholder="Password"
                   placeholderTextColor={"#BDBDBD"}
-                  secureTextEntry={true}
+                  secureTextEntry={passwordVisibility}
                   onFocus={() => {
                     setIsShowKeyboard(true), setIsFocusPassword(true);
                   }}
@@ -118,8 +121,12 @@ export default function LoginScreen({ navigation }) {
                   }
                 />
                 <TouchableOpacity>
-                  <Text activeOpacity={1} style={styles.show}>
-                    Show
+                  <Text
+                    activeOpacity={1}
+                    style={styles.toggleText}
+                    onPress={handlePasswordVisibility}
+                  >
+                    {toggleText}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -196,7 +203,7 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: "#212121",
   },
-  show: {
+  toggleText: {
     marginTop: 16,
     fontFamily: "Roboto-400",
     fontStyle: "normal",

@@ -3,18 +3,14 @@ import React, { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import LoginScreen from "./Screens/authScreens/LoginScreen";
-import RegistrationScreen from "./Screens/authScreens/RegistrationScreen";
-import Home from "./Components/Home";
-import store from "./Redux/store";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+// import { PersistGate } from "redux-persist/integration/react";
+
+import store from "./Redux/store";
+import Main from "./Components/Main";
 
 SplashScreen.preventAutoHideAsync();
-
-const MainStack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -38,29 +34,7 @@ export default function App() {
       <View style={styles.container} onLayout={onLayoutRootView}>
         <StatusBar style="auto" />
         <NavigationContainer>
-          <MainStack.Navigator initialRouteName="Login">
-            <MainStack.Screen
-              name="Registration"
-              component={RegistrationScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <MainStack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <MainStack.Screen
-              name="Home"
-              component={Home}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </MainStack.Navigator>
+          <Main />
         </NavigationContainer>
       </View>
       {/* </PersistGate> */}
