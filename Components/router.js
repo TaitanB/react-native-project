@@ -101,22 +101,9 @@ export const useRoute = (isAuth) => {
       <Tabs.Screen
         name="Home"
         component={Home}
-        options={({ route }) => ({
-          //   headerTitle: "Posts",
+        options={{
           headerShown: false,
-          // route.name === "Map" || route.name === "Comment" ? false : true,
-          headerRight: () => (
-            <TouchableOpacity
-              style={{
-                width: 24,
-                marginRight: 16,
-              }}
-              onPress={() => navigation.navigate("Login")}
-            >
-              <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
-            </TouchableOpacity>
-          ),
-        })}
+        }}
       />
       <Tabs.Screen
         name="CreatePosts"

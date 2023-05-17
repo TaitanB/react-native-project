@@ -19,32 +19,35 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      <NestedStack.Navigator initialRouteName="Posts">
+      <NestedStack.Navigator
+        initialRouteName="Posts"
+        screenOptions={({ route }) => ({
+          headerTitleStyle: {
+            fontFamily: "Roboto-500",
+            fontStyle: "normal",
+            fontWeight: "medium",
+            fontSize: 17,
+            lineHeight: 22,
+            textAlign: "center",
+            letterSpacing: -0.408,
+            color: "#212121",
+          },
+          headerTitleAlign: "center",
+          headerStatusBarHeight: 44,
+          headerStyle: {
+            height: 88,
+            borderBottomWidth: 1,
+            borderBottomColor: "#BDBDBD",
+          },
+          headerShown:
+            route.name === "Map" || route.name === "Comments" ? false : true,
+        })}
+      >
         <NestedStack.Screen
           name="Posts"
           component={PostsScreen}
           options={({ route }) => ({
             headerTitle: "Posts",
-            headerTitleAlign: "center",
-            headerTitleStyle: {
-              fontFamily: "Roboto-500",
-              fontStyle: "normal",
-              fontWeight: "medium",
-              fontSize: 17,
-              lineHeight: 22,
-              textAlign: "center",
-              letterSpacing: -0.408,
-              color: "#212121",
-            },
-            headerStatusBarHeight: 44,
-            headerStyle: {
-              height: 88,
-              borderBottomWidth: 1,
-              borderBottomColor: "#BDBDBD",
-            },
-            headerShown:
-              route.name === "Map" || route.name === "Comment" ? false : true,
-            headerStyle: { height: 70 },
             headerRight: () => (
               <TouchableOpacity
                 style={{ width: 24, marginRight: 16 }}
@@ -55,7 +58,7 @@ const Home = () => {
             ),
           })}
         />
-        <NestedStack.Screen
+        {/* <NestedStack.Screen
           name="Map"
           component={MapScreen}
           options={({ route }) => ({})}
@@ -64,7 +67,7 @@ const Home = () => {
           name="Comments"
           component={CommentsScreen}
           options={{}}
-        />
+        /> */}
       </NestedStack.Navigator>
     </View>
   );
