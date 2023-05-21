@@ -37,7 +37,7 @@ const PostsScreen = () => {
           headerShown: false,
         }}
       />
-      <NestedScreen.Screen name="Comment" component={CommentsScreen} />
+      <NestedScreen.Screen name="Comments" component={CommentsScreen} />
       <NestedScreen.Screen name="Map" component={MapScreen} />
     </NestedScreen.Navigator>
   );

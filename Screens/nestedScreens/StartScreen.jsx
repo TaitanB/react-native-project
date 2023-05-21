@@ -27,9 +27,9 @@ const StartScreen = ({ navigation, route }) => {
                   style={styles.commentIcon}
                   name="message-circle"
                   size={24}
-                  color="#BDBDBD"
+                  color="#010000"
                   onPress={() => {
-                    navigation.navigate("Comment", {
+                    navigation.navigate("Comments", {
                       postId: item.id,
                       comment: item.comment,
                       uri: item.photoURL,
