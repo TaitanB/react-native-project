@@ -1,25 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TouchableOpacity,
   Text,
   StyleSheet,
+  Button,
+  FlatList,
   Image,
   Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-
+import db from "../../firebase/config";
 import ImageBg from "../../Components/ImageBg";
 import { authSignOut } from "../../Redux/operations";
 
-
 export default function ProfileScreen() {
   const { userName } = useSelector((state) => state.auth);
+  const [userPosts, setUserPosts] = useState([]);
+  const { userId } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const signOut = () => {
     dispatch(authSignOut());
+  };
+
+  useEffect(() => {
+    getUserPosts();
+  }, []);
+
+  const getUserPosts = async () => {
+    await db
+      .firestore()
+      .collection("posts")
+      .where("userId", "==", userId)
+      .onSnapshot((data) =>
+        setUserPosts(data.docs.map((doc) => ({ ...doc.data() })))
+      );
   };
 
   return (
@@ -48,6 +65,24 @@ export default function ProfileScreen() {
             <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
           </TouchableOpacity>
           <Text style={styles.profileTitle}>{userName}</Text>
+          <FlatList
+            data={userPosts}
+            keyExtractor={(item, indx) => indx.toString()}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  marginBottom: 10,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={{ uri: item.photo }}
+                  style={{ width: 350, height: 200 }}
+                />
+              </View>
+            )}
+          />
         </View>
       </ImageBg>
     </View>

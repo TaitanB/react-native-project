@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import db from "../../firebase/config";
 
-const StartScreen = ({ navigation, route }) => {
+const PostsScreen = ({ navigation, route }) => {
   const { userName, userEmail } = useSelector((state) => state.auth);
+  const [posts, setPosts] = useState([]);
+
+  const getAllPost = async () => {
+    await db
+      .firestore()
+      .collection("posts")
+      .onSnapshot((data) =>
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+      );
+  };
+
+  useEffect(() => {
+    console.log("d");
+    getAllPost();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -17,10 +33,11 @@ const StartScreen = ({ navigation, route }) => {
       </View>
       <FlatList
         data={"posts"}
+        keyExtractor={(item, indx) => indx.toString()}
         renderItem={({ item }) => (
           <View style={styles.postContainer}>
             <Image source={{ uri: item.photoURL }} style={styles.image} />
-            <Text style={styles.comment}>{"item.comment"}</Text>
+            <Text style={styles.comment}>{item.comment}</Text>
             <View style={styles.itemContainer}>
               <View style={styles.iconContainer}>
                 <Feather
@@ -43,7 +60,7 @@ const StartScreen = ({ navigation, route }) => {
                 <Text>0</Text>
               </View> */}
               <View style={styles.locationContainer}>
-                <Text style={styles.locationText}>{"item.locationName"}</Text>
+                <Text style={styles.locationText}>{item.locationName}</Text>
                 <Feather
                   style={styles.locationIcon}
                   name="map-pin"
@@ -155,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StartScreen;
+export default PostsScreen;

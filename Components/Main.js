@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { useRoute } from "./router";
 import { useDispatch, useSelector } from "react-redux";
+
+import { useRoute } from "./router";
 
 import { authStateChangeUser } from "../Redux/operations";
 

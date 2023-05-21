@@ -2,12 +2,12 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import LoginScreen from "../Screens/authScreens/LoginScreen";
 import RegistrationScreen from "../Screens/authScreens/RegistrationScreen";
-import Home from "./Home";
+import StartScreen from "../Screens/homeScreens/StartScreen";
 import CreatePostsScreen from "../Screens/homeScreens/CreatePostsScreen";
 import ProfileScreen from "../Screens/homeScreens/ProfileScreen";
 
@@ -20,17 +20,17 @@ export const useRoute = (isAuth) => {
 
   if (!isAuth) {
     return (
-      <AuthStack.Navigator initialRouteName="Login">
+      <AuthStack.Navigator>
         <AuthStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
+          name="Login"
+          component={LoginScreen}
           options={{
             headerShown: false,
           }}
         />
         <AuthStack.Screen
-          name="Login"
-          component={LoginScreen}
+          name="Registration"
+          component={RegistrationScreen}
           options={{
             headerShown: false,
           }}
@@ -40,7 +40,7 @@ export const useRoute = (isAuth) => {
   }
   return (
     <Tabs.Navigator
-      initialRouteName="Home"
+      // initialRouteName="StartScreen"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
@@ -48,7 +48,7 @@ export const useRoute = (isAuth) => {
             iconName = "user";
           } else if (route.name === "CreatePosts") {
             iconName = "plus";
-          } else if (route.name === "Home") {
+          } else if (route.name === "StartScreen") {
             iconName = "grid";
           }
           return <Feather name={iconName} size={size} color={color} />;
@@ -99,10 +99,21 @@ export const useRoute = (isAuth) => {
       })}
     >
       <Tabs.Screen
-        name="Home"
-        component={Home}
+        name="StartScreen"
+        component={StartScreen}
         options={{
           headerShown: false,
+          // headerRight: () => (
+          //   <TouchableOpacity
+          //     style={{
+          //       width: 24,
+          //       marginRight: 16,
+          //     }}
+          //     onPress={() => navigation.navigate("Login")}
+          //   >
+          //     <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
+          //   </TouchableOpacity>
+          // ),
         }}
       />
       <Tabs.Screen
