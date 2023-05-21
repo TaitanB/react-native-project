@@ -18,7 +18,7 @@ export const authSignUp =
   ({ login, email, password }) =>
   async (dispatch, getState) => {
     try {
-      // const userAvatar = getState().auth.userAvatar;
+      const userAvatar = getState().auth.avatar;
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -28,7 +28,7 @@ export const authSignUp =
 
       await updateProfile(userCredential.user, {
         displayName: login,
-        // photoURL: userAvatar,
+        photoURL: userAvatar,
       });
 
       const { displayName, uid, photoURL } = userCredential.user;
@@ -37,7 +37,7 @@ export const authSignUp =
         userName: displayName,
         userId: uid,
         email,
-        // avatar: photoURL,
+        avatar: photoURL,
       };
 
       console.log("userUpdateProfile =>", userUpdateProfile);
@@ -79,7 +79,7 @@ export const authSignIn =
           userName: displayName,
           userId: uid,
           email,
-          // avatar: photoURL,
+          avatar: photoURL,
         })
       );
     } catch (error) {
@@ -123,7 +123,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
           userName: displayName,
           userId: uid,
           email,
-          //  avatar: photoURL,
+          avatar: photoURL,
         };
         dispatch(authStateChange({ stateChange: true }));
         dispatch(updateUserProfile(userUpdateProfile));

@@ -12,12 +12,12 @@ import {
   Image,
 } from "react-native";
 import { useSelector } from "react-redux";
-// import { useNavigation } from "@react-navigation/native";
+
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-// import { TouchableOpacity } from "react-native-gesture-handler";
+
 import * as Location from "expo-location";
-import db from "../../firebase/config";
+import { db, storage } from "../../firebase/config";
 
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 
@@ -36,8 +36,6 @@ const CreatePostsScreen = ({ navigation }) => {
 
   const [location, setLocation] = useState(null);
   const { userId, userName } = useSelector((state) => state.auth);
-
-  // const navigation = useNavigation();
 
   console.log(type);
 
@@ -93,7 +91,7 @@ const CreatePostsScreen = ({ navigation }) => {
     const createPost = await db
       .firestore()
       .collection("posts")
-      .add({ photo, comment, location: location.coords, userId, userName });
+      .add({ photo, description, location: location.coords, userId, userName });
     console.log(createPost);
   };
 
@@ -101,14 +99,28 @@ const CreatePostsScreen = ({ navigation }) => {
     const response = await fetch(photo);
     const file = await response.blob();
     const uniquePostId = Date.now().toString();
-    await db.storage().ref(`postImage/${uniquePostId}`).put(file);
-    const processedPhoto = await db
-      .storage()
-      .ref("postImage")
-      .child(uniquePostId)
-      .getDownloadURL();
+
+    const storageRef = storage.ref(`postImage/${uniquePostId}`);
+    await storageRef.put(file);
+
+    const processedPhotoRef = storage.ref("postImage").child(uniquePostId);
+    const processedPhoto = await processedPhotoRef.getDownloadURL();
+
     return processedPhoto;
   };
+
+  // const uploadPhotoToServer = async () => {
+  //   const response = await fetch(photo);
+  //   const file = await response.blob();
+  //   const uniquePostId = Date.now().toString();
+  //   await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+  //   const processedPhoto = await db
+  //     .storage()
+  //     .ref("postImage")
+  //     .child(uniquePostId)
+  //     .getDownloadURL();
+  //   return processedPhoto;
+  // };
 
   useEffect(() => {
     (async () => {
@@ -152,16 +164,7 @@ const CreatePostsScreen = ({ navigation }) => {
               >
                 <Text style={styles.flipText}>Flip</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.photoButton}
-                onPress={takePhoto}
-                // onPress={async () => {
-                //   if (cameraRef) {
-                //     const { uri } = await cameraRef.takePictureAsync();
-                //     await MediaLibrary.createAssetAsync(uri);
-                //   }
-                // }}
-              >
+              <TouchableOpacity style={styles.photoButton} onPress={takePhoto}>
                 <MaterialIcons
                   name="camera-alt"
                   size={24}
@@ -235,9 +238,6 @@ const CreatePostsScreen = ({ navigation }) => {
                   style={styles.publishBtn}
                   activeOpacity={0.7}
                   onPress={sendPhoto}
-                  // onPress={() => {
-                  //   submitPublish(), navigation.navigate("Posts");
-                  // }}
                 >
                   <Text style={styles.publishBtnText}>Publish</Text>
                 </TouchableOpacity>

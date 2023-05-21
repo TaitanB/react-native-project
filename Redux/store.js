@@ -17,8 +17,6 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-// const reducer = persistReducer(persistConfig, authReducer);
-
 const rootReducer = combineReducers({
   auth: persistReducer(persistConfig, authReducer),
 });
@@ -34,7 +32,3 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
-// const rootReducer = combineReducers({
-//   [authSlice.name]: authSlice.reducer,
-// });
