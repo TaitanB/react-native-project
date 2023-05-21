@@ -20,7 +20,7 @@ const CommentsScreen = ({ route }) => {
   const { postId } = route.params;
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
-  const { nickName } = useSelector((state) => state.auth);
+  const { userName } = useSelector((state) => state.auth);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -35,7 +35,7 @@ const CommentsScreen = ({ route }) => {
       .collection("posts")
       .doc(postId)
       .collection("comments")
-      .add({ comment, nickName });
+      .add({ comment, userName });
   };
 
   const getAllPosts = async () => {
@@ -65,7 +65,7 @@ const CommentsScreen = ({ route }) => {
               data={allComments}
               renderItem={({ item }) => (
                 <View style={styles.commentContainer}>
-                  <Text>{item.nickName}</Text>
+                  <Text>{item.userName}</Text>
                   <Text>{item.comment}</Text>
                 </View>
               )}

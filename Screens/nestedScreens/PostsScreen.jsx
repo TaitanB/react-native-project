@@ -32,7 +32,7 @@ const PostsScreen = ({ navigation, route }) => {
         </View>
       </View>
       <FlatList
-        data={"posts"}
+        data={posts}
         keyExtractor={(item, indx) => indx.toString()}
         renderItem={({ item }) => (
           <View style={styles.postContainer}>

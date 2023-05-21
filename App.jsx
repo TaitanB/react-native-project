@@ -5,9 +5,9 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
-// import { PersistGate } from "redux-persist/integration/react";
+import { PersistGate } from "redux-persist/integration/react";
 
-import store from "./Redux/store";
+import { store, persistor } from "./Redux/store";
 import Main from "./Components/Main";
 
 SplashScreen.preventAutoHideAsync();
@@ -30,14 +30,14 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <StatusBar style="auto" />
-        <NavigationContainer>
-          <Main />
-        </NavigationContainer>
-      </View>
-      {/* </PersistGate> */}
+      <PersistGate loading={null} persistor={persistor}>
+        <View style={styles.container} onLayout={onLayoutRootView}>
+          <StatusBar style="auto" />
+          <NavigationContainer>
+            <Main />
+          </NavigationContainer>
+        </View>
+      </PersistGate>
     </Provider>
   );
 }

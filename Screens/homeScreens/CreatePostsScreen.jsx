@@ -18,6 +18,7 @@ import * as MediaLibrary from "expo-media-library";
 // import { TouchableOpacity } from "react-native-gesture-handler";
 import * as Location from "expo-location";
 import db from "../../firebase/config";
+
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 
 const CreatePostsScreen = ({ navigation }) => {
@@ -34,7 +35,7 @@ const CreatePostsScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
 
   const [location, setLocation] = useState(null);
-  const { userId, nickName } = useSelector((state) => state.auth);
+  const { userId, userName } = useSelector((state) => state.auth);
 
   // const navigation = useNavigation();
 
@@ -92,7 +93,8 @@ const CreatePostsScreen = ({ navigation }) => {
     const createPost = await db
       .firestore()
       .collection("posts")
-      .add({ photo, comment, location: location.coords, userId, nickName });
+      .add({ photo, comment, location: location.coords, userId, userName });
+    console.log(createPost);
   };
 
   const uploadPhotoToServer = async () => {
