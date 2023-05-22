@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
-import db from "../firebase/config";
+
 import { auth } from "../firebase/config";
 import {
   updateUserProfile,

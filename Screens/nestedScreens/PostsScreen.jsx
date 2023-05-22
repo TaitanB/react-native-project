@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-import db from "../../firebase/config";
+import { db } from "../../firebase/config";
 
 const PostsScreen = ({ navigation, route }) => {
   const { userName, userEmail } = useSelector((state) => state.auth);

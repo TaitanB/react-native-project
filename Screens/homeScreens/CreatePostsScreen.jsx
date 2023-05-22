@@ -109,19 +109,6 @@ const CreatePostsScreen = ({ navigation }) => {
     return processedPhoto;
   };
 
-  // const uploadPhotoToServer = async () => {
-  //   const response = await fetch(photo);
-  //   const file = await response.blob();
-  //   const uniquePostId = Date.now().toString();
-  //   await db.storage().ref(`postImage/${uniquePostId}`).put(file);
-  //   const processedPhoto = await db
-  //     .storage()
-  //     .ref("postImage")
-  //     .child(uniquePostId)
-  //     .getDownloadURL();
-  //   return processedPhoto;
-  // };
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();

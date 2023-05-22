@@ -11,7 +11,7 @@ import {
   FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
-import db from "../../firebase/config";
+import { db } from "../../firebase/config";
 import { Ionicons } from "@expo/vector-icons";
 
 const CommentsScreen = ({ route }) => {

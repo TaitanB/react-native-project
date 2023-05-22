@@ -4,14 +4,13 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Button,
   FlatList,
   Image,
   Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import db from "../../firebase/config";
+import { db } from "../../firebase/config";
 import ImageBg from "../../Components/ImageBg";
 import { authSignOut } from "../../Redux/operations";
 
