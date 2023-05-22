@@ -78,7 +78,6 @@ export default function ProfileScreen() {
               <View style={styles.postContainer}>
                 <Image source={{ uri: item.photo }} style={styles.image} />
                 <Text style={styles.descr}>{item.description}</Text>
-                {/* <Text style={styles.comment}>{item.comment}</Text> */}
                 <View style={styles.itemContainer}>
                   <View style={styles.iconContainer}>
                     <Feather
@@ -178,7 +177,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    paddingHorizontal: 16,
     backgroundColor: "#ffffff",
   },
   postContainer: {

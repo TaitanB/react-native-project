@@ -92,7 +92,7 @@ const CommentsScreen = ({ route }) => {
     };
 
     getAllComments();
-  }, [allComments.length]);
+  }, []);
 
   console.log(allComments);
 
@@ -102,41 +102,49 @@ const CommentsScreen = ({ route }) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.safeArea}>
           <Image style={styles.photo} source={{ uri }} />
           <FlatList
+            style={styles.list}
             data={allComments}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View
-                style={
+                style={[
+                  styles.commentContainer,
                   item.userName === userName
                     ? { alignItems: "flex-end" }
-                    : { alignItems: "flex-start" }
-                }
+                    : { alignItems: "flex-start" },
+                ]}
               >
                 <View
                   style={[
-                    styles.commentContainer,
+                    styles.textContainer,
                     item.userName === userName
-                      ? { backgroundColor: "rgba(0, 0, 225, 0.1)" }
-                      : { backgroundColor: "rgba(0, 225, 0, 0.1)" },
+                      ? { backgroundColor: "rgba(0, 0, 225, 0.03)" }
+                      : { backgroundColor: "rgba(0, 0, 0, 0.03)" },
                   ]}
                 >
                   <Image
-                    style={{
-                      borderRadius: 50,
-                      width: 28,
-                      height: 28,
-                      marginRight: 6,
-                      marginBottom: 5,
-                    }}
+                    style={[
+                      styles.avatar,
+                      item.userName === userName
+                        ? { left: -44 }
+                        : { right: -44 },
+                    ]}
                     source={{ uri: item.userAvatar }}
                   />
-                  <Text>{item.userName}: </Text>
-                  <Text>{item.comment}</Text>
-                  <Text style={styles.date}>
-                    {item.date} - {item.time}
+                  <Text style={styles.name}>{item.userName}: </Text>
+                  <Text style={styles.comment}>{item.comment}</Text>
+                  <Text
+                    style={[
+                      styles.datetime,
+                      item.userName === userName
+                        ? { textAlign: "right" }
+                        : { textAlign: "left" },
+                    ]}
+                  >
+                    {item.date} | {item.time}
                   </Text>
                 </View>
               </View>
@@ -178,15 +186,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
+    paddingHorizontal: 16,
+  },
+  safeArea: {
+    flex: 1,
     justifyContent: "flex-end",
   },
   photo: {
     width: 343,
     height: 240,
     borderRadius: 8,
+    backgroundColor: "#21212175",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 8,
+    marginTop: 32,
+    marginBottom: 32,
   },
   form: {
     justifyContent: "center",
@@ -211,11 +225,41 @@ const styles = StyleSheet.create({
     bottom: 14,
   },
   commentContainer: {
+    paddingHorizontal: 16,
+  },
+  textContainer: {
     width: "80%",
-    backgroundColor: "rgba(0, 0, 0, 0.03)",
-    borderRadius: 10,
-    marginBottom: 5,
-    padding: 10,
-    marginHorizontal: 5,
+    borderRadius: 6,
+    marginBottom: 24,
+    padding: 16,
+  },
+  avatar: {
+    backgroundColor: "#21212175",
+    borderRadius: 50,
+    width: 28,
+    height: 28,
+    position: "absolute",
+  },
+  datetime: {
+    fontSize: 10,
+    lineHeight: 12,
+    color: "#BDBDBD",
+    marginTop: 8,
+  },
+  comment: {
+    fontFamily: "Roboto-400",
+    fontStyle: "normal",
+    fontWeight: "regular",
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#212121",
+  },
+  name: {
+    fontFamily: "Roboto-500",
+    fontStyle: "normal",
+    fontWeight: "medium",
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#212121",
   },
 });
