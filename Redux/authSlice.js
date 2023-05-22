@@ -16,7 +16,7 @@ const authSlice = createSlice({
       ...state,
       userId: payload.userId,
       userName: payload.userName,
-      userEmail: payload.userEmail,
+      userEmail: payload.email,
       userAvatar: payload.userAvatar,
     }),
     authStateChange: (state, { payload }) => ({

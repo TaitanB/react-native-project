@@ -23,7 +23,7 @@ const CommentsScreen = ({ route }) => {
   const { postId, uri } = route.params;
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
-  const { userName } = useSelector((state) => state.auth);
+  const { userName, userAvatar } = useSelector((state) => state.auth);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -31,43 +31,70 @@ const CommentsScreen = ({ route }) => {
   };
 
   const submitComment = async () => {
-    await addDoc(collection(doc(collection(db, "posts"), postId), "comments"), {
-      comment,
-      userName,
-    });
+    const date = new Date().toLocaleDateString();
+    const time = new Date().toLocaleTimeString();
 
+    try {
+      await addDoc(collection(doc(db, "posts", postId), "comments"), {
+        comment,
+        userName,
+        date,
+        userAvatar,
+        time,
+      });
+    } catch (error) {
+      console.log("error.message", error.message);
+    }
+  };
+
+  const createComment = () => {
+    submitComment();
+    keyboardHide();
     setComment("");
   };
 
-  const getAllComments = async () => {
-    await onSnapshot(
-      collection(doc(collection(db, "posts"), postId), "comments"),
-      (data) => {
-        const commentsData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        console.log(commentsData); // Переконайтеся, що отримуєте коментарі
-        if (commentsData) {
-          setAllComments(commentsData);
-        }
-      }
-    );
-  };
-
   // const getAllComments = async () => {
-  //   await onSnapshot(
-  //     collection(doc(collection(db, "posts"), postId), "comments"),
-  //     (data) => {
-  //       console.log(allComments);
-  //       setAllComments(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-  //     }
-  //   );
+  //   try {
+  //     console.log("getAllComments");
+  //     await onSnapshot(
+  //       collection(doc(collection(db, "posts"), postId), "comments"),
+  //       (data) => {
+  //         setAllComments(
+  //           data.docs.map((doc) => ({
+  //             ...doc.data(),
+  //             id: doc.id,
+  //           }))
+  //         );
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
   // };
 
+  // useEffect(() => {
+  //   console.log("useEffect getAllComments");
+  //   getAllComments();
+  // }, []);
+
   useEffect(() => {
+    const getAllComments = () => {
+      onSnapshot(
+        collection(doc(collection(db, "posts"), postId), "comments"),
+        (data) => {
+          const commentsData = data.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setAllComments(commentsData);
+        }
+      );
+    };
+
     getAllComments();
-  }, []);
+  }, [allComments.length]);
+
+  console.log(allComments);
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -75,58 +102,68 @@ const CommentsScreen = ({ route }) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
+        <SafeAreaView style={styles.container}>
+          <Image style={styles.photo} source={{ uri }} />
+          <FlatList
+            data={allComments}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View
+                style={
+                  item.userName === userName
+                    ? { alignItems: "flex-end" }
+                    : { alignItems: "flex-start" }
+                }
+              >
+                <View
+                  style={[
+                    styles.commentContainer,
+                    item.userName === userName
+                      ? { backgroundColor: "rgba(0, 0, 225, 0.1)" }
+                      : { backgroundColor: "rgba(0, 225, 0, 0.1)" },
+                  ]}
+                >
+                  <Image
+                    style={{
+                      borderRadius: 50,
+                      width: 28,
+                      height: 28,
+                      marginRight: 6,
+                      marginBottom: 5,
+                    }}
+                    source={{ uri: item.userAvatar }}
+                  />
+                  <Text>{item.userName}: </Text>
+                  <Text>{item.comment}</Text>
+                  <Text style={styles.date}>
+                    {item.date} - {item.time}
+                  </Text>
+                </View>
+              </View>
+            )}
+          />
+        </SafeAreaView>
         <View
           style={{
             ...styles.form,
             marginBottom: isShowKeyboard ? 270 : 10,
           }}
         >
-          <SafeAreaView style={styles.container}>
-            <Image style={styles.photo} source={{ uri }} />
-            <FlatList
-              data={allComments ? allComments : []}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View
-                  style={
-                    item.userName === userName
-                      ? { alignItems: "flex-end" }
-                      : { alignItems: "flex-start" }
-                  }
-                >
-                  <View
-                    style={[
-                      styles.commentContainer,
-                      item.userName === userName
-                        ? { backgroundColor: "rgba(0, 0, 225, 0.1)" }
-                        : { backgroundColor: "rgba(0, 225, 0, 0.1)" },
-                    ]}
-                  >
-                    <Text>{item.userName}: </Text>
-                    <Text>{item.comment}</Text>
-                  </View>
-                </View>
-              )}
-            />
-          </SafeAreaView>
-          <View>
-            <TextInput
-              value={comment}
-              onChangeText={(value) => setComment(value)}
-              placeholder="Comment..."
-              placeholderTextColor={"#BDBDBD"}
-              onFocus={() => {
-                setIsShowKeyboard(true), setOnFocusComment(true);
-              }}
-              onBlur={() => setOnFocusComment(false)}
-              style={{
-                ...styles.input,
-                borderColor: onFocusComment ? "#FF6C00" : "#E8E8E8",
-              }}
-            />
-          </View>
-
-          <TouchableOpacity style={styles.send} onPress={submitComment}>
+          <TextInput
+            value={comment}
+            onChangeText={(value) => setComment(value)}
+            placeholder="Comment..."
+            placeholderTextColor={"#BDBDBD"}
+            onFocus={() => {
+              setIsShowKeyboard(true), setOnFocusComment(true);
+            }}
+            onBlur={() => setOnFocusComment(false)}
+            style={{
+              ...styles.input,
+              borderColor: onFocusComment ? "#FF6C00" : "#E8E8E8",
+            }}
+          />
+          <TouchableOpacity style={styles.send} onPress={createComment}>
             <Ionicons name="arrow-up-circle" size={34} color="#FF6C00" />
           </TouchableOpacity>
         </View>
@@ -172,5 +209,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 8,
     bottom: 14,
+  },
+  commentContainer: {
+    width: "80%",
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    borderRadius: 10,
+    marginBottom: 5,
+    padding: 10,
+    marginHorizontal: 5,
   },
 });

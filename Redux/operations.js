@@ -36,7 +36,7 @@ export const authSignUp =
       const userUpdateProfile = {
         userName: displayName,
         userId: uid,
-        userEmail,
+        email,
         userAvatar: photoURL,
       };
 
@@ -78,7 +78,7 @@ export const authSignIn =
         updateUserProfile({
           userName: displayName,
           userId: uid,
-          userEmail,
+          email,
           userAvatar: photoURL,
         })
       );
@@ -122,7 +122,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
         const userUpdateProfile = {
           userName: displayName,
           userId: uid,
-          userEmail,
+          email,
           userAvatar: photoURL,
         };
         dispatch(authStateChange({ stateChange: true }));

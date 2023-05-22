@@ -12,6 +12,7 @@ const PostsScreen = ({ navigation, route }) => {
 
   const [posts, setPosts] = useState([]);
   console.log(userName, userEmail, userAvatar);
+
   const getAllPost = async () => {
     await onSnapshot(collection(db, "posts"), (data) => {
       setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
