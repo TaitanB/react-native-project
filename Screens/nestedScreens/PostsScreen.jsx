@@ -3,22 +3,27 @@ import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { db } from "../../firebase/config";
+import { collection, onSnapshot } from "firebase/firestore";
 
 const PostsScreen = ({ navigation, route }) => {
   const { userName, userEmail } = useSelector((state) => state.auth);
   const [posts, setPosts] = useState([]);
 
   const getAllPost = async () => {
-    await db
-      .firestore()
-      .collection("posts")
-      .onSnapshot((data) =>
-        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-      );
+    await onSnapshot(collection(db, "posts"), (data) => {
+      setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
+
+    // await db
+    //   .firestore()
+    //   .collection("posts")
+    //   .onSnapshot((data) =>
+    //     setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    //   );
   };
 
   useEffect(() => {
-    console.log("d");
+    console.log("getAllPost");
     getAllPost();
   }, []);
 

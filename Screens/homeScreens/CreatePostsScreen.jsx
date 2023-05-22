@@ -17,6 +17,7 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 
 import * as Location from "expo-location";
+import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase/config";
 
 import { Feather, MaterialIcons } from "@expo/vector-icons";
@@ -33,7 +34,6 @@ const CreatePostsScreen = ({ navigation }) => {
   const [type, setType] = useState(Camera.Constants.Type.back);
 
   const [photo, setPhoto] = useState(null);
-
   const [location, setLocation] = useState(null);
   const { userId, userName } = useSelector((state) => state.auth);
 
@@ -42,14 +42,6 @@ const CreatePostsScreen = ({ navigation }) => {
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
-  };
-
-  const submitPublish = () => {
-    // setLocationName("");
-    // setDescription("");
-    console.log(location);
-    // console.log(locationName);
-    // console.log(description);
   };
 
   useEffect(() => {
@@ -84,30 +76,59 @@ const CreatePostsScreen = ({ navigation }) => {
   const sendPhoto = () => {
     uploadPostToServer();
     navigation.navigate("StartScreen");
+    setLocationName("");
+    setDescription("");
+    setPhoto(null);
   };
 
   const uploadPostToServer = async () => {
-    const photo = await uploadPhotoToServer();
-    const createPost = await db
-      .firestore()
-      .collection("posts")
-      .add({ photo, description, location: location.coords, userId, userName });
+    await uploadPhotoToServer();
+    const createPost = await addDoc(collection(db, "posts"), {
+      photo,
+      description,
+      location,
+      locationName,
+      userId,
+      userName,
+    });
+
     console.log(createPost);
   };
 
   const uploadPhotoToServer = async () => {
-    const response = await fetch(photo);
-    const file = await response.blob();
-    const uniquePostId = Date.now().toString();
+    if (!photo) return;
 
-    const storageRef = storage.ref(`postImage/${uniquePostId}`);
-    await storageRef.put(file);
+    try {
+      const response = await fetch(photo);
+      const blobFile = await response.blob();
+      const id = Date.now();
+      // const reference = ref(storage, `images/${id}`);
+      // const result = await uploadBytesResumable(reference, blobFile);
+      // const processedPhoto = await getDownloadURL(result.ref);
+      //? або
+      const processedPhoto = await getDownloadURL(ref(storage, `images/${id}`));
 
-    const processedPhotoRef = storage.ref("postImage").child(uniquePostId);
-    const processedPhoto = await processedPhotoRef.getDownloadURL();
-
-    return processedPhoto;
+      setPhoto(processedPhoto);
+    } catch (error) {
+      alert("Try again \n", error.message);
+    }
   };
+
+  //todo завантаження фото з галереї
+  // const uploadPhotoFromGallery = async () => {
+  //   let userImage = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [5, 3],
+  //     quality: 1,
+  //   });
+  //   if (!userImage.canceled) {
+  //     setState((prevState) => ({
+  //       ...prevState,
+  //       img: userImage.assets[0].uri,
+  //     }));
+  //   }
+  // };
 
   useEffect(() => {
     (async () => {
