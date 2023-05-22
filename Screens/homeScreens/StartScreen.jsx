@@ -16,7 +16,7 @@ const StartScreen = ({ navigation, route }) => {
     dispatch(authSignOut());
   };
 
-  console.log(route);
+  // console.log(route);
   return (
     <NestedScreen.Navigator
       initialRouteName="Posts"

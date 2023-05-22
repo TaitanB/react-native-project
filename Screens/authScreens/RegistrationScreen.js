@@ -74,10 +74,15 @@ export default function RegistrationScreen({ navigation }) {
                 }}
               >
                 <Image style={styles.photo}></Image>
+
                 <Image
                   source={require("../../assets/image/add.png")}
                   style={styles.add}
-                ></Image>
+                />
+                {/* <Image
+                  source={require("../../assets/image/del.png")}
+                  style={styles.del}
+                /> */}
               </View>
               <View
                 style={{
@@ -239,6 +244,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     bottom: 14,
+  },
+  del: {
+    position: "absolute",
+    right: -5,
+    bottom: 8,
   },
   header: {
     alignItems: "center",

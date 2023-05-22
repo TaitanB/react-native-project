@@ -6,20 +6,16 @@ import { db } from "../../firebase/config";
 import { collection, onSnapshot } from "firebase/firestore";
 
 const PostsScreen = ({ navigation, route }) => {
-  const { userName, userEmail } = useSelector((state) => state.auth);
-  const [posts, setPosts] = useState([]);
+  const { userName, userEmail, userAvatar } = useSelector(
+    (state) => state.auth
+  );
 
+  const [posts, setPosts] = useState([]);
+  console.log(userName, userEmail, userAvatar);
   const getAllPost = async () => {
     await onSnapshot(collection(db, "posts"), (data) => {
       setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     });
-
-    // await db
-    //   .firestore()
-    //   .collection("posts")
-    //   .onSnapshot((data) =>
-    //     setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-    //   );
   };
 
   useEffect(() => {
@@ -30,7 +26,7 @@ const PostsScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.user}>
-        <Image style={styles.avatar} />
+        <Image source={userAvatar} style={styles.avatar} />
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.userEmail}>{userEmail}</Text>
@@ -41,8 +37,8 @@ const PostsScreen = ({ navigation, route }) => {
         keyExtractor={(item, indx) => indx.toString()}
         renderItem={({ item }) => (
           <View style={styles.postContainer}>
-            <Image source={{ uri: item.photoURL }} style={styles.image} />
-            <Text style={styles.comment}>{item.comment}</Text>
+            <Image source={{ uri: item.photo }} style={styles.image} />
+            <Text style={styles.descr}>{item.description}</Text>
             <View style={styles.itemContainer}>
               <View style={styles.iconContainer}>
                 <Feather
@@ -53,17 +49,12 @@ const PostsScreen = ({ navigation, route }) => {
                   onPress={() => {
                     navigation.navigate("Comments", {
                       postId: item.id,
-                      comment: item.comment,
-                      uri: item.photoURL,
+                      uri: item.photo,
                     });
                   }}
                 />
                 <Text>0</Text>
               </View>
-              {/* <View style={styles.iconContainer}>
-                <Feather name="thumbs-up" size={24} color="#BDBDBD" />
-                <Text>0</Text>
-              </View> */}
               <View style={styles.locationContainer}>
                 <Text style={styles.locationText}>{item.locationName}</Text>
                 <Feather
@@ -136,6 +127,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
     backgroundColor: "#f6f6f6",
+  },
+
+  descr: {
+    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: "medium",
+    lineHeight: 19,
+    color: "#212121",
   },
 
   comment: {
