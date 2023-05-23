@@ -86,18 +86,16 @@ export const authSignIn =
       const errorCode = error.code;
       const errorMessage = error.message;
       if (errorCode === "auth/wrong-password") {
-        alert(
-          "Password is invalid for the given email, or the account corresponding to the email does not have a password set"
-        );
+        alert("Password is invalid for this email address.");
       }
       if (errorCode === "auth/user-not-found") {
-        alert("No user corresponding to the given email");
+        alert("No user with this email address was found.");
       }
       if (errorCode === "auth/user-disabled") {
-        alert("User corresponding to the given email has been disabled");
+        alert("The user with this email address is disabled.");
       }
       if (errorCode === "auth/invalid-email") {
-        alert("Email address is not valid");
+        alert("Email address is invalid.");
       } else {
         alert(errorMessage);
       }
@@ -145,6 +143,6 @@ export const changeAvatar =
         photoURL: processedAvatarURL,
       });
     }
-    // Запись в стейт Редакса Аватарки, чтобы при Регистрации 'authSignUpUser' взяла оттуда данные
+    // Запись в стейт Редакса Аватарки, чтобы при Регистрации 'authSignUp' взяла оттуда данные
     dispatch(updateAvatar({ userAvatar: processedAvatarURL }));
   };

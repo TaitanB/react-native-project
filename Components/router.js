@@ -40,7 +40,7 @@ export const useRoute = (isAuth) => {
   }
   return (
     <Tabs.Navigator
-      // initialRouteName="StartScreen"
+      initialRouteName="StartScreen"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
@@ -70,12 +70,7 @@ export const useRoute = (isAuth) => {
             paddingHorizontal: 60,
             borderTopWidth: 1,
             borderTopColor: "#BDBDBD",
-            display:
-              route.name === "CreatePosts" ||
-              route.name === "Comments" ||
-              route.name === "Map"
-                ? "none"
-                : "flex",
+            display: route.name === "CreatePosts" ? "none" : "flex",
           },
         ],
         tabBarShowLabel: false,
@@ -103,17 +98,6 @@ export const useRoute = (isAuth) => {
         component={StartScreen}
         options={{
           headerShown: false,
-          // headerRight: () => (
-          //   <TouchableOpacity
-          //     style={{
-          //       width: 24,
-          //       marginRight: 16,
-          //     }}
-          //     onPress={() => navigation.navigate("Login")}
-          //   >
-          //     <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
-          //   </TouchableOpacity>
-          // ),
         }}
       />
       <Tabs.Screen

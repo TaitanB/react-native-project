@@ -15,6 +15,7 @@ import { db } from "../../firebase/config";
 import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
 import ImageBg from "../../Components/ImageBg";
 import { authSignOut } from "../../Redux/operations";
+import { AvatarContainer } from "../../Components/Avatar";
 
 export default function ProfileScreen() {
   const [userPosts, setUserPosts] = useState([]);
@@ -43,7 +44,7 @@ export default function ProfileScreen() {
         <View
           style={{ ...styles.profile, width: Dimensions.get("window").width }}
         >
-          <View
+          {/* <View
             style={{
               ...styles.avatarContainer,
               left: Dimensions.get("window").width / 2 - 60,
@@ -61,7 +62,8 @@ export default function ProfileScreen() {
                 style={styles.add}
               />
             )}
-          </View>
+          </View> */}
+          <AvatarContainer />
           <TouchableOpacity
             style={styles.logoutButton}
             activeOpacity={0.8}
