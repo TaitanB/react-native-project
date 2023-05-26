@@ -137,12 +137,11 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
 export const changeAvatar =
   (processedAvatarURL) => async (dispatch, getState) => {
     const user = auth.currentUser;
-    // Проверка: это 'Регистрация' или 'Профиль'. Если 'Регистрация', то user еще не существует...
     if (user !== null) {
       await updateProfile(user, {
         photoURL: processedAvatarURL,
       });
     }
-    // Запись в стейт Редакса Аватарки, чтобы при Регистрации 'authSignUp' взяла оттуда данные
+
     dispatch(updateAvatar({ userAvatar: processedAvatarURL }));
   };

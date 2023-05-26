@@ -9,7 +9,6 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  Image,
   Dimensions,
 } from "react-native";
 import { useDispatch } from "react-redux";
@@ -17,6 +16,7 @@ import { useDispatch } from "react-redux";
 import ImageBg from "../../Components/ImageBg";
 import { authSignUp } from "../../Redux/operations";
 import { useTogglePasswordVisibility } from "../../hooks/useTogglePasswordVisibility";
+import { AvatarContainer } from "../../Components/Avatar";
 
 const initialState = {
   login: "",
@@ -73,16 +73,7 @@ export default function RegistrationScreen({ navigation }) {
                   left: Dimensions.get("window").width / 2 - 60,
                 }}
               >
-                <Image style={styles.photo}></Image>
-
-                <Image
-                  source={require("../../assets/image/add.png")}
-                  style={styles.add}
-                />
-                {/* <Image
-                  source={require("../../assets/image/del.png")}
-                  style={styles.del}
-                /> */}
+                <AvatarContainer />
               </View>
               <View
                 style={{
@@ -231,7 +222,7 @@ const styles = StyleSheet.create({
     width: 132,
     height: 120,
     position: "absolute",
-    top: -60,
+    top: 0,
   },
   photo: {
     width: 120,

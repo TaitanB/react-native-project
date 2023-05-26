@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 
 import { changeAvatar } from "../Redux/operations";
 import uploadAvatarToStorage from "./uploadAvatar";
 
-const defaultAvatar = "../assets/image/avatar.jpg";
+const defaultAvatar = "../assets/user.png";
 
 export function AvatarContainer() {
   const dispatch = useDispatch();
@@ -15,8 +15,7 @@ export function AvatarContainer() {
 
   const [avatar, setAvatar] = useState(userAvatar);
 
-  const avatarAddHandler = async () => {
-    // No permissions request is necessary for launching the image library
+  const avatarAdd = async () => {
     const imageFromGallery = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -35,7 +34,7 @@ export function AvatarContainer() {
     }
   };
 
-  const avatarDeleteHandler = () => {
+  const avatarDelete = () => {
     setAvatar(null);
     dispatch(changeAvatar(null));
   };
@@ -46,18 +45,16 @@ export function AvatarContainer() {
         style={styles.avatar}
         source={avatar ? { uri: avatar } : require(defaultAvatar)}
       />
-
-      {/* Кнопка Добавить/Удалить аватар */}
       <TouchableOpacity
-        style={styles.avatarButton}
+        style={styles.avatarAdd}
         activeOpacity={0.8}
-        onPress={!avatar ? avatarAddHandler : avatarDeleteHandler}
+        onPress={!avatar ? avatarAdd : avatarDelete}
       >
-        <Ionicons
-          name="add-circle-outline"
+        <Feather
+          name="plus-circle"
           size={25}
           color={"#FF6C00"}
-          style={avatar && styles.avatarRemoveIcon}
+          style={avatar && styles.avatarRemove}
         />
       </TouchableOpacity>
     </View>
@@ -71,18 +68,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -60,
   },
+
   avatar: {
     width: 120,
     height: 120,
     borderRadius: 16,
     backgroundColor: "#F6F6F6",
   },
-  avatarButton: {
+
+  avatarAdd: {
     position: "absolute",
     right: 0,
     bottom: 14,
   },
-  avatarRemoveIcon: {
+
+  avatarRemove: {
     position: "absolute",
     right: -5,
     bottom: 8,

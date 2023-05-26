@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { db } from "../../firebase/config";
 import { collection, onSnapshot } from "firebase/firestore";
 
+const defaultAvatar = "../../assets/user.png";
+
 const PostsScreen = ({ navigation, route }) => {
   const { userName, userEmail, userAvatar } = useSelector(
     (state) => state.auth
@@ -27,7 +29,10 @@ const PostsScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.user}>
-        <Image source={userAvatar} style={styles.avatar} />
+        <Image
+          style={styles.avatar}
+          source={userAvatar ? { uri: userAvatar } : require(defaultAvatar)}
+        />
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{userName}</Text>
           <Text style={styles.userEmail}>{userEmail}</Text>

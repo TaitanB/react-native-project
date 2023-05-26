@@ -19,7 +19,7 @@ import { AvatarContainer } from "../../Components/Avatar";
 
 export default function ProfileScreen() {
   const [userPosts, setUserPosts] = useState([]);
-  const { userId, userName, userAvatar } = useSelector((state) => state.auth);
+  const { userId, userName } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const signOut = () => {
@@ -44,25 +44,6 @@ export default function ProfileScreen() {
         <View
           style={{ ...styles.profile, width: Dimensions.get("window").width }}
         >
-          {/* <View
-            style={{
-              ...styles.avatarContainer,
-              left: Dimensions.get("window").width / 2 - 60,
-            }}
-          >
-            <Image style={styles.avatar} />
-            {userAvatar ? (
-              <Image
-                source={require("../../assets/image/del.png")}
-                style={styles.del}
-              />
-            ) : (
-              <Image
-                source={require("../../assets/image/add.png")}
-                style={styles.add}
-              />
-            )}
-          </View> */}
           <AvatarContainer />
           <TouchableOpacity
             style={styles.logoutButton}
@@ -141,33 +122,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     position: "relative",
   },
-  avatarContainer: {
-    width: 132,
-    height: 120,
-    position: "absolute",
-    top: -60,
-  },
-  avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 16,
-    backgroundColor: "#F6F6F6",
-  },
+
   logoutButton: {
     position: "absolute",
     top: 22,
     right: 16,
   },
-  add: {
-    position: "absolute",
-    right: 0,
-    bottom: 14,
-  },
-  del: {
-    position: "absolute",
-    right: -5,
-    bottom: 8,
-  },
+
   profileTitle: {
     fontFamily: "Roboto-500",
     fontSize: 30,
@@ -219,7 +180,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: "row",
     gap: 6,
-
     alignItems: "center",
   },
 

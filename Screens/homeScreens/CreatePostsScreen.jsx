@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  Dimensions,
 } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -102,10 +103,6 @@ const CreatePostsScreen = ({ navigation }) => {
       const response = await fetch(photo);
       const blobFile = await response.blob();
       const id = Date.now();
-      // const reference = ref(storage, `images/${id}`);
-      // const result = await uploadBytesResumable(reference, blobFile);
-      // const processedPhoto = await getDownloadURL(result.ref);
-      //? або
       const processedPhoto = await getDownloadURL(ref(storage, `images/${id}`));
 
       setPhoto(processedPhoto);
@@ -114,7 +111,6 @@ const CreatePostsScreen = ({ navigation }) => {
     }
   };
 
-  //todo завантаження фото з галереї
   // const uploadPhotoFromGallery = async () => {
   //   let userImage = await ImagePicker.launchImageLibraryAsync({
   //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -153,10 +149,19 @@ const CreatePostsScreen = ({ navigation }) => {
           <Camera style={styles.camera} type={type} ref={setCameraRef}>
             <View style={styles.photoView}>
               {photo && (
-                <View style={styles.takePhotoContainer}>
+                <View
+                  style={{
+                    ...styles.takePhotoContainer,
+                    left: Dimensions.get("window").width / 2 - 150,
+                  }}
+                >
                   <Image
                     source={{ uri: photo }}
-                    style={{ height: 200, width: 200, borderRadius: 10 }}
+                    style={{
+                      width: 300,
+                      height: 200,
+                      borderRadius: 8,
+                    }}
                   />
                 </View>
               )}
@@ -277,7 +282,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     maxHeight: 240,
-    // height: 240,
     marginTop: 32,
     borderRadius: 8,
     borderWidth: 1,
@@ -290,14 +294,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // takePhotoContainer: {
-  //   position: "absolute",
-  //   top: 50,
-  //   left: 10,
-  //   borderColor: "#fff",
-  //   borderWidth: 1,
-  //   borderRadius: 10,
-  // },
+  takePhotoContainer: {
+    position: "absolute",
+    top: 10,
+    borderColor: "#fff",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
 
   photoView: {
     flex: 1,

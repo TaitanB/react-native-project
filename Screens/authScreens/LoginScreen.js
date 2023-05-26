@@ -136,7 +136,6 @@ export default function LoginScreen({ navigation }) {
                   <TouchableOpacity
                     activeOpacity={0.7}
                     style={styles.btn}
-                    // onPress={() => navigation.navigate("Home")}
                     onPress={handleSubmit}
                   >
                     <Text style={styles.btnTitle}>Sing in</Text>

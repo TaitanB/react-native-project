@@ -5,7 +5,7 @@ import CommentsScreen from "../nestedScreens/CommentsScreen";
 import MapScreen from "../nestedScreens/MapScreen";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authSignOut } from "../../Redux/operations";
 
 const NestedScreen = createStackNavigator();
@@ -16,7 +16,6 @@ const StartScreen = ({ navigation, route }) => {
     dispatch(authSignOut());
   };
 
-  // console.log(route);
   return (
     <NestedScreen.Navigator
       initialRouteName="Posts"
@@ -52,7 +51,6 @@ const StartScreen = ({ navigation, route }) => {
                 marginRight: 16,
               }}
               onPress={signOut}
-              // onPress={() => navigation.navigate("Login")}
             >
               <MaterialIcons name="logout" size={24} color={"#BDBDBD"} />
             </TouchableOpacity>

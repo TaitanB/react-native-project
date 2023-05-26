@@ -17,6 +17,8 @@ import { db } from "../../firebase/config";
 import { collection, addDoc, doc, onSnapshot } from "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
 
+const defaultAvatar = "../../assets/user.png";
+
 const CommentsScreen = ({ route }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [onFocusComment, setOnFocusComment] = useState(false);
@@ -132,7 +134,11 @@ const CommentsScreen = ({ route }) => {
                         ? { left: -44 }
                         : { right: -44 },
                     ]}
-                    source={{ uri: item.userAvatar }}
+                    source={
+                      userAvatar
+                        ? { uri: item.userAvatar }
+                        : require(defaultAvatar)
+                    }
                   />
                   <Text style={styles.name}>{item.userName}: </Text>
                   <Text style={styles.comment}>{item.comment}</Text>
@@ -196,7 +202,7 @@ const styles = StyleSheet.create({
     width: 343,
     height: 240,
     borderRadius: 8,
-    backgroundColor: "#21212175",
+    backgroundColor: "#E8E8E8",
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 32,
@@ -234,7 +240,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   avatar: {
-    backgroundColor: "#21212175",
+    backgroundColor: "#F6F6F6",
     borderRadius: 50,
     width: 28,
     height: 28,
